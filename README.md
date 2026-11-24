@@ -1,6 +1,6 @@
 # ORBIT — Gravitational Mechanics Simulator
 
-ORBIT is a two-dimensional gravitational mechanics simulator developed in Python. It models the motion of interacting celestial bodies using Newton's law of universal gravitation and compares the behavior of three numerical integration methods.
+ORBIT is a two-dimensional gravitational mechanics simulator developed in Python. It models the motion of interacting celestial bodies using Newton's law of universal gravitation and compares three numerical integration methods.
 
 The project combines classical mechanics, numerical analysis, scientific visualization, and an interactive graphical interface.
 
@@ -18,12 +18,26 @@ The project combines classical mechanics, numerical analysis, scientific visuali
 
 ![Orbital diagnostics](orbital_diagnostics.png)
 
+## Table of contents
+
+- [Features](#features)
+- [Physical model](#physical-model)
+- [Numerical integration methods](#numerical-integration-methods)
+- [Numerical results](#numerical-results)
+- [Installation](#installation)
+- [Running the simulator](#running-the-simulator)
+- [Scientific experiments](#scientific-experiments)
+- [Project structure](#project-structure)
+- [Limitations](#limitations)
+- [Technologies](#technologies)
+- [AI assistance](#ai-assistance)
+
 ## Features
 
 - Interactive graphical interface built with Tkinter and Matplotlib.
-- Solar system and three-body simulation scenarios.
+- Solar-system and three-body simulation scenarios.
 - Animated orbital trajectories.
-- Individual simulations and side-by-side integrator comparisons.
+- Individual simulations and integrator comparisons.
 - Three numerical integration methods:
   - Euler-Cromer
   - Velocity Verlet
@@ -35,17 +49,28 @@ The project combines classical mechanics, numerical analysis, scientific visuali
 
 ## Physical model
 
-The simulator uses Newton's law of universal gravitation:
+The simulator uses Newton's law of universal gravitation. The magnitude of the gravitational force between two point masses is:
 
 \[
 F = G\frac{m_1m_2}{r^2}
 \]
 
-The acceleration of each body is calculated from the gravitational influence of every other body in the system.
+For a system of multiple bodies, the acceleration of body \(i\) is calculated by summing the gravitational contributions of every other body:
+
+\[
+\mathbf{a}_i =
+G\sum_{j\ne i}
+m_j
+\frac{\mathbf{r}_j-\mathbf{r}_i}
+{\|\mathbf{r}_j-\mathbf{r}_i\|^3}
+\]
 
 The equations of motion are integrated numerically over discrete time steps. The resulting trajectories are analyzed using mechanical energy, angular momentum, and position error.
 
-The solar scenario represents an idealized Sun-Earth two-body system. The three-body scenario uses a figure-eight periodic solution with equal masses.
+Two simulation scenarios are available:
+
+- **Sun-Earth:** an idealized two-body system using astronomical units and years.
+- **Three-body:** an equal-mass figure-eight periodic solution using normalized units.
 
 ## Numerical integration methods
 
@@ -55,11 +80,11 @@ The solar scenario represents an idealized Sun-Earth two-body system. The three-
 | Velocity Verlet | 2 | Good long-term energy behavior |
 | RK4 | 4 | High accuracy per integration step |
 
-The project compares these methods in terms of trajectory accuracy, conservation properties, and convergence as the time step decreases.
+The methods are compared in terms of trajectory accuracy, conservation properties, and convergence as the time step decreases.
 
 ## Numerical results
 
-A one-year solar-system experiment compares each method against a finer-step RK4 reference solution.
+A one-year Sun-Earth experiment compares each integration method against a finer-step RK4 reference solution.
 
 | Method | RMS position error | Maximum relative energy drift |
 |---|---:|---:|
@@ -75,7 +100,7 @@ The convergence experiment produced the following estimated orders:
 | Velocity Verlet | 2.0019 | 2 |
 | RK4 | 4.0647 | 4 |
 
-These results are numerical estimates obtained under the experiment's chosen initial conditions, time steps, and reference solution. They should not be interpreted as universal performance guarantees.
+These results are numerical estimates obtained under the experiments' chosen initial conditions, time steps, and reference solutions. They are not universal performance guarantees. The reference solution is itself a numerical approximation.
 
 ## Installation
 
@@ -112,6 +137,8 @@ Install the dependencies:
 python -m pip install -r requirements.txt
 ```
 
+If Tkinter is not available in your Python installation, install the corresponding system package for your operating system.
+
 ## Running the simulator
 
 Launch the graphical application:
@@ -122,9 +149,9 @@ python app.py
 
 Select a simulation scenario, choose an integration method, configure the time step and duration, and run the simulation.
 
-The application also supports comparing the three integration methods.
+The application also supports comparing all three integration methods.
 
-## Running scientific experiments
+## Scientific experiments
 
 The project includes independent scripts for numerical analysis:
 
@@ -162,7 +189,7 @@ Each experiment generates CSV data and scientific plots for further inspection.
 - Simulations are restricted to two spatial dimensions.
 - The gravitational model is Newtonian.
 - Celestial bodies are treated as point masses.
-- The solar scenario is an idealized Sun-Earth two-body model, not a complete Solar System simulation.
+- The Sun-Earth scenario is an idealized two-body model, not a complete Solar System simulation.
 - Numerical reference solutions are approximations rather than exact analytical solutions.
 - Relativistic effects and non-gravitational forces are not modeled.
 
